@@ -1,24 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import Card from "./Card";
+import sound from './use/audio.mp3'
+import Play from "./Play";
+import { useRef, useState } from "react";
+
+
 
 function App() {
+  const [click,setClick] = useState(false)
+  const audioRef = useRef(null);
+
+  const startMusic = () => {
+    if (audioRef.current) {
+      audioRef.current.play()
+        .then(() => {
+          console.log('Music is playing!');
+        })
+        .catch((error) => {
+          console.error('Error playing music:', error);
+        });
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+      {
+        click ? <>
+        <Card/>
+        </> : <>
+        
+        <div className="emoji" onClick={()=>{setClick(true) ; startMusic() }}>
+         
+        🙏CLICK ME🙏
+          </div>
+        </>
+      }
+
+      {
+        <audio ref={audioRef} loop >
+        <source src={sound} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      }
+
+   
+    
+       </div>
+
+
+  
   );
 }
 
